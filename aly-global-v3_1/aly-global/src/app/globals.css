@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --black:    #0d0d0b;
+    --white:    #ffffff;
+    --cream:    #f7f5f1;
+    --cream-2:  #eeebe4;
+    --muted:    #7a7870;
+    --border:   #e4e2dd;
+    --border-strong: #c8c5be;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--black);
+    background: var(--white);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--black); color: var(--white); }
+}
+
+@layer components {
+  .font-display { font-family: var(--font-display); }
+  .font-body    { font-family: var(--font-body); }
+
+  .announce {
+    background: #0d0d0b;
+    color: #fff;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 9px 16px;
+  }
+
+  .nav-link {
+    font-family: var(--font-body);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.18s;
+  }
+  .nav-link:hover { color: var(--black); }
+
+  .footer-link {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: #7a7874;
+    transition: color 0.18s;
+  }
+  .footer-link:hover { color: #d4cfc5; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-primary:hover  { background: #2a2a28; }
+  .btn-primary:active { transform: scale(0.985); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--black);
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 15px 35px;
+    border: 1px solid var(--border-strong);
+    cursor: pointer;
+    transition: border-color 0.18s, color 0.18s;
+  }
+  .btn-ghost:hover { border-color: var(--black); }
+
+  .img-block {
+    position: relative;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  .p-card { cursor: pointer; }
+  .p-card .img-inner {
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .p-card:hover .img-inner { transform: scale(1.04); }
+  .p-card .card-cta {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .p-card:hover .card-cta { opacity: 1; transform: translateY(0); }
+
+  .marquee-wrap { overflow: hidden; white-space: nowrap; }
+  .marquee-track { display: inline-block; animation: marquee 28s linear infinite; }
+  .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 300;
+    color: var(--cream-2);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .policy-prose h2 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--black);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .policy-prose p   { color: #4a4845; line-height: 1.75; margin-bottom: 1rem; }
+  .policy-prose ul  { list-style: disc; margin-left: 1.5rem; color: #4a4845; margin-bottom: 1rem; }
+  .policy-prose li  { margin-bottom: 0.4rem; line-height: 1.7; }
+  .policy-prose a   { color: var(--black); text-decoration: underline; text-underline-offset: 3px; }
+  .policy-prose a:hover { color: var(--muted); }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .d1 { animation-delay: 80ms; }
+  .d2 { animation-delay: 160ms; }
+  .d3 { animation-delay: 240ms; }
+  .d4 { animation-delay: 320ms; }
+  .d5 { animation-delay: 400ms; }
+}
