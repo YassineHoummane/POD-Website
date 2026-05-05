@@ -79,7 +79,7 @@ export const products: Product[] = [
     price: 58.00,
     description: 'Heavyweight 400gsm fleece, full-length YKK zip, kangaroo pocket. The zip hoodie elevated — structured enough for the street, soft enough for the sofa.',
     category: 'Zip Hoodies', categorySlug: 'zip-hoodies',
-    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80&auto=format&fit=crop',
+    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7',
     imageAlt: 'Premium zip hoodie in dark color',
     imagePlaceholder: 'Premium Zip Hoodie',
     featured: true,
