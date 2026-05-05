@@ -1,139 +1,97 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import './globals.css';
+import { BRAND } from '@/lib/data';
+import FooterNewsletter from './FooterNewsletter';
 
 export const metadata: Metadata = {
-  title: 'ALY GLOBAL LLC — Premium Custom Apparel & Design',
-  description:
-    'Premium custom apparel and print-on-demand design. Shop exclusive tees, hoodies, and sweatshirts — every piece made specifically for you.',
+  title: `${BRAND.name} — Premium Custom Apparel & Design`,
+  description: 'Shop premium custom t-shirts, zip hoodies, tank tops, and hats. Print-on-demand — every piece made specifically for you.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="bg-white text-gray-900 antialiased">
+      <head><meta name="viewport" content="width=device-width, initial-scale=1" /></head>
+      <body>
+        {/* Announcement */}
+        <div className="announce">Free Shipping Across the Entire United States</div>
 
-        {/* ── Announcement Bar ──────────────────────────── */}
-        <div className="announce">
-          Every item made to order &nbsp;·&nbsp; Free exchanges on all orders &nbsp;·&nbsp; 30-day returns
-        </div>
-
-        {/* ── Sticky Header ─────────────────────────────── */}
-        <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12">
-            <div className="grid grid-cols-3 items-center h-16 lg:h-[72px]">
-
-              {/* Left nav */}
-              <nav className="hidden md:flex items-center gap-7" aria-label="Primary">
-                <Link href="/" className="nav-link">Shop</Link>
-                <Link href="/policies/refund" className="nav-link">Returns</Link>
+        {/* Header */}
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8">
+            <div className="grid grid-cols-3 items-center h-16">
+              <nav className="hidden md:flex items-center gap-6">
+                <Link href="/" className="nav-link">Home</Link>
+                <Link href="/catalog" className="nav-link">All Collections</Link>
+                <Link href="/catalog" className="nav-link">All Products</Link>
               </nav>
-              {/* Mobile left */}
-              <nav className="flex md:hidden items-center gap-5">
-                <Link href="/" className="nav-link">Shop</Link>
-                <Link href="/policies/refund" className="nav-link">Returns</Link>
-              </nav>
-
-              {/* Centre logo */}
-              <div className="flex justify-center">
-                <Link href="/" aria-label="ALY GLOBAL LLC — Home" className="group text-center">
-                  <div
-                    className="font-display font-semibold tracking-widest uppercase group-hover:opacity-70 transition-opacity duration-200"
-                    style={{ fontSize: 'clamp(15px,2vw,20px)', letterSpacing: '0.3em' }}
-                  >
-                    ALY GLOBAL
-                  </div>
-                  <div className="font-body text-[8px] tracking-[0.4em] uppercase text-gray-400 -mt-0.5">
-                    LLC
-                  </div>
-                </Link>
+              <div className="flex md:hidden items-center">
+                <span className="text-sm font-bold text-gray-700">≡</span>
               </div>
-
-              {/* Right nav */}
-              <nav className="hidden md:flex items-center justify-end gap-7" aria-label="Secondary">
-                <Link href="/policies/privacy" className="nav-link">Privacy</Link>
-                <Link href="/policies/terms" className="nav-link">Terms</Link>
-              </nav>
-              {/* Mobile right */}
-              <nav className="flex md:hidden items-center justify-end gap-5">
-                <Link href="/policies/privacy" className="nav-link">Privacy</Link>
-              </nav>
-
+              <div className="flex justify-center">
+                <Link href="/" className="brand-logo">{BRAND.name}<span className="brand-dot">.</span></Link>
+              </div>
+              <div className="flex items-center justify-end gap-6">
+                <Link href="/contact" className="nav-link hidden md:block">Contact Information</Link>
+                <button aria-label="Cart" className="text-gray-800 hover:text-[var(--accent)] transition-colors">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="md:hidden border-t border-gray-100 overflow-x-auto">
+            <div className="flex gap-4 px-4 py-2">
+              {[['/', 'Home'], ['/catalog', 'Collections'], ['/about', 'About'], ['/contact', 'Contact'], ['/faqs', 'FAQs']].map(([href, label]) => (
+                <Link key={href} href={href} className="nav-link text-xs whitespace-nowrap py-1">{label}</Link>
+              ))}
             </div>
           </div>
         </header>
 
-        {/* ── Page Content ──────────────────────────────── */}
         <main>{children}</main>
 
-        {/* ── Footer ────────────────────────────────────── */}
-        <footer style={{ background: '#0d0d0b' }} className="text-gray-400 mt-24">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-10">
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-14">
-              {/* Brand */}
-              <div className="md:col-span-2">
-                <p
-                  className="font-display font-semibold uppercase text-white mb-2"
-                  style={{ letterSpacing: '0.28em', fontSize: '18px' }}
-                >
-                  ALY GLOBAL LLC
-                </p>
-                <p className="font-body text-[11px] tracking-widest uppercase text-gray-500 mb-5">
-                  Premium Custom Apparel & Design
-                </p>
-                <p className="font-body text-sm text-gray-500 leading-relaxed max-w-xs">
-                  Every piece in our store is printed on demand — made specifically
-                  for you the moment you order. No overstock, no waste.
-                </p>
-              </div>
-
-              {/* Policies */}
+        {/* Footer */}
+        <footer className="bg-gray-950 text-gray-400 mt-20">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-14 pb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
               <div>
-                <p className="font-body text-[9px] tracking-[0.3em] uppercase text-gray-600 mb-4">Policies</p>
-                <ul className="space-y-3">
-                  {([
-                    ['/policies/refund',  'Refund Policy'],
-                    ['/policies/privacy', 'Privacy Policy'],
-                    ['/policies/terms',   'Terms of Service'],
-                  ] as [string, string][]).map(([href, label]) => (
-                    <li key={href}>
-                      <Link href={href} className="footer-link">{label}</Link>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-white font-bold text-xs mb-5 uppercase tracking-widest">Customer Care</p>
+                <Link href="/track-order"       className="footer-link">Track Your Order</Link>
+                <Link href="/faqs"              className="footer-link">FAQs</Link>
+                <Link href="/about"             className="footer-link">About Us</Link>
+                <Link href="/contact"           className="footer-link">Contact Us</Link>
               </div>
-
-              {/* Contact */}
               <div>
-                <p className="font-body text-[9px] tracking-[0.3em] uppercase text-gray-600 mb-4">Contact</p>
-                <address className="not-italic font-body text-sm text-gray-500 leading-relaxed space-y-0.5">
-                  <p>ALY GLOBAL LLC</p>
-                  <p>1209 Mountain Road Pl NE Ste R</p>
-                  <p>Albuquerque, NM 87110</p>
-                </address>
-                <a href="mailto:support@alyglobal.com" className="footer-link mt-3 inline-block text-gray-400">
-                  support@alyglobal.com
-                </a>
+                <p className="text-white font-bold text-xs mb-5 uppercase tracking-widest">Policies</p>
+                <Link href="/contact"              className="footer-link">Contact Information</Link>
+                <Link href="/policies/shipping"    className="footer-link">Shipping Policy</Link>
+                <Link href="/policies/refund"      className="footer-link">Return &amp; Refund Policy</Link>
+                <Link href="/policies/privacy"     className="footer-link">Privacy Policy</Link>
+                <Link href="/policies/terms"       className="footer-link">Terms of Service</Link>
+              </div>
+              <div className="col-span-2">
+                <p className="brand-logo text-white mb-1">{BRAND.name}<span className="brand-dot">.</span></p>
+                <p className="text-gray-500 text-xs mb-5">{BRAND.tagline}</p>
+                <p className="text-white font-bold text-xs mb-3 uppercase tracking-widest">Get In Touch</p>
+                <p className="text-gray-400 text-sm mb-1">{BRAND.address}</p>
+                <a href={`mailto:${BRAND.email}`} className="footer-link">{BRAND.email}</a>
+                <a href={`tel:${BRAND.phone}`}    className="footer-link">{BRAND.phone}</a>
               </div>
             </div>
-
-            {/* Bottom */}
-            <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between gap-3">
-              <p className="font-body text-xs text-gray-700">
-                © 2026 ALY GLOBAL LLC. All rights reserved.
-              </p>
-              <p className="font-body text-xs text-gray-700">
-                Governed by the laws of New Mexico, USA
-              </p>
+            <div className="border-t border-gray-800 pt-8 pb-6 text-center">
+              <p className="text-white font-bold text-xs mb-4 uppercase tracking-widest">Subscribe to our Newsletter</p>
+              <FooterNewsletter />
+            </div>
+            <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+              <p className="text-gray-600 text-xs">© {BRAND.year} {BRAND.name}. All rights reserved.</p>
+              <div className="flex items-center gap-3">
+                {['VISA','MC','AMEX','PAYPAL'].map(p => (
+                  <span key={p} className="bg-gray-800 text-gray-400 text-[9px] font-bold px-2 py-1 rounded">{p}</span>
+                ))}
+              </div>
             </div>
           </div>
         </footer>

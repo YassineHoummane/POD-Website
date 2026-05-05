@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getProductById, products, searchProducts } from '@/lib/data';
+import { getProductById, products } from '@/lib/data';
 import type { Metadata } from 'next';
 import AddToCartButton from './AddToCartButton';
 
@@ -11,13 +11,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
-  const product = getProductById(id);
-  if (!product) return { title: 'Product Not Found — ALY GLOBAL LLC' };
-  return {
-    title: `${product.name} — ALY GLOBAL LLC`,
-    description: product.description,
-    openGraph: { images: [{ url: product.image }] },
-  };
+  const p = getProductById(id);
+  if (!p) return { title: 'Product Not Found' };
+  return { title: `${p.name} — MercheKing`, description: p.description, openGraph: { images: [{ url: p.image }] } };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
@@ -25,201 +21,114 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
   const product = getProductById(id);
   if (!product) notFound();
 
-  const related = searchProducts(product.category)
-    .filter(p => p.id !== product.id)
-    .slice(0, 3);
-
   return (
-    <div className="max-w-7xl mx-auto px-6 lg:px-12">
-
+    <div className="max-w-7xl mx-auto px-4 lg:px-8 py-10">
       {/* Breadcrumb */}
-      <nav className="py-6 flex items-center gap-2 text-gray-400" aria-label="Breadcrumb">
-        <Link href="/" className="font-body text-[11px] tracking-[0.2em] uppercase hover:text-gray-900 transition-colors">
-          Shop
-        </Link>
-        <span className="text-gray-200 text-xs">/</span>
-        <Link
-          href={`/?q=${encodeURIComponent(product.category)}`}
-          className="font-body text-[11px] tracking-[0.2em] uppercase hover:text-gray-900 transition-colors"
-        >
-          {product.category}
-        </Link>
-        <span className="text-gray-200 text-xs">/</span>
-        <span className="font-body text-[11px] tracking-[0.2em] uppercase text-gray-900 truncate max-w-[180px]">
-          {product.name}
-        </span>
+      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">
+        <Link href="/" className="hover:text-[var(--accent)] transition-colors">Home</Link>
+        <span>/</span>
+        <Link href={`/catalog?category=${product.categorySlug}`} className="hover:text-[var(--accent)] transition-colors">{product.category}</Link>
+        <span>/</span>
+        <span className="text-gray-700 font-medium truncate">{product.name}</span>
       </nav>
 
-      {/* Product layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px] gap-10 lg:gap-16 pb-24">
-
+      {/* Product layout — exactly like screenshot: big image left, details right */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-16">
         {/* Image */}
-        <div className="relative aspect-square lg:aspect-[4/5] w-full overflow-hidden bg-[#f0ede6]">
-          <Image
-            src={product.image}
-            alt={product.imageAlt}
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
-            className="object-cover"
-          />
+        <div className="relative aspect-square bg-gray-100 overflow-hidden">
+          <Image src={product.image} alt={product.imageAlt} fill priority
+            sizes="(max-width:1024px)100vw,50vw" className="object-cover" />
+          {product.badge && (
+            <span className={`badge absolute top-4 left-4 text-sm px-3 py-1 ${product.badge === 'New' ? 'badge-new' : ''}`}>
+              {product.badge}
+            </span>
+          )}
         </div>
 
-        {/* Details — sticky on desktop */}
-        <div className="lg:sticky lg:top-24 self-start">
-          <p className="font-body text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-4">
-            {product.category}
-          </p>
-          <h1
-            className="font-display font-semibold text-gray-900 leading-none mb-5"
-            style={{ fontSize: 'clamp(2.4rem,4vw,3.8rem)' }}
-          >
-            {product.name}
-          </h1>
-          <div className="flex items-baseline gap-3 mb-6">
-            <span className="font-body text-2xl font-medium text-gray-900">
-              ${product.price.toFixed(2)}
-            </span>
-            <span className="font-body text-sm text-gray-400">USD</span>
-          </div>
-          <p className="font-body text-[15px] text-gray-500 leading-relaxed mb-8 max-w-sm">
-            {product.description}
-          </p>
+        {/* Details */}
+        <div className="flex flex-col justify-start">
+          <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 font-bold">{product.category}</p>
+          <h1 className="text-3xl md:text-4xl font-black mb-2 leading-tight">{product.name}</h1>
+          <p className="text-2xl font-black text-gray-900 mb-1">${product.price.toFixed(2)} <span className="text-sm font-normal text-gray-400">USD</span></p>
+          <p className="text-green-600 text-sm font-semibold mb-5">✓ Free Shipping</p>
 
-          <div className="w-10 h-px bg-gray-200 mb-8" />
+          <p className="text-gray-600 text-sm leading-relaxed mb-6 border-b border-gray-100 pb-6">{product.description}</p>
 
-          {/* Size selector */}
-          <div className="mb-7">
-            <div className="flex items-center justify-between mb-3">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-gray-500">Size</p>
-              <Link
-                href="/policies/refund"
-                className="font-body text-[10px] tracking-[0.1em] uppercase text-gray-400 underline underline-offset-2 hover:text-gray-900 transition-colors"
-              >
-                Size Guide
-              </Link>
+          {/* Colors */}
+          {product.colors.length > 0 && (
+            <div className="mb-5">
+              <p className="text-xs font-bold uppercase tracking-wider mb-3 text-gray-700">
+                Color — <span className="font-normal text-gray-500">{product.colors[0].name}</span>
+              </p>
+              <div className="flex items-center gap-2 flex-wrap">
+                {product.colors.map((c, i) => (
+                  <div key={c.name} title={c.name}
+                    className={`color-swatch ${i === 0 ? 'active' : ''}`}
+                    style={{ background: c.hex, outline: c.hex === '#FFFFFF' ? '1px solid #e5e5e5' : 'none' }}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-6 gap-2">
-              {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
-                <button
-                  key={size}
-                  className="font-body text-xs h-11 border border-gray-200 text-gray-600
-                             hover:border-gray-900 hover:text-gray-900 transition-colors duration-150
-                             focus:outline-none focus:ring-1 focus:ring-gray-900"
-                  aria-label={`Select size ${size}`}
-                >
-                  {size}
-                </button>
-              ))}
+          )}
+
+          {/* Sizes */}
+          {product.sizes.length > 0 && (
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs font-bold uppercase tracking-wider text-gray-700">Size</p>
+                <button className="text-xs text-[var(--accent)] underline font-semibold">Size Guide</button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {product.sizes.map((s, i) => (
+                  <div key={s} className={`size-chip ${i === 1 ? 'active' : ''}`}>{s}</div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Add to cart */}
-          <AddToCartButton productName={product.name} />
+          {/* Qty + Add to cart — matches screenshot layout */}
+          <AddToCartButton productName={product.name} price={product.price} />
 
-          {/* Trust signals */}
-          <div className="mt-7 pt-7 border-t border-gray-100 space-y-3">
+          {/* Trust bar */}
+          <div className="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 gap-3">
             {[
-              { icon: '✦', label: 'Made on demand',   sub: 'Printed specifically for your order' },
-              { icon: '✦', label: '30-day returns',    sub: 'On defects & production errors' },
-              { icon: '✦', label: 'Secure checkout',   sub: 'SSL encrypted · We never store card data' },
-            ].map(({ icon, label, sub }) => (
-              <div key={label} className="flex items-start gap-3">
-                <span className="text-gray-300 text-xs mt-0.5 flex-shrink-0">{icon}</span>
-                <div>
-                  <p className="font-body text-[12px] font-medium text-gray-800">{label}</p>
-                  <p className="font-body text-[11px] text-gray-400">{sub}</p>
-                </div>
+              { icon: '🔒', text: 'Secure Checkout' },
+              { icon: '🚚', text: 'Free US Shipping' },
+              { icon: '↩️', text: '30-Day Returns' },
+              { icon: '✅', text: 'Made to Order' },
+            ].map(({ icon, text }) => (
+              <div key={text} className="flex items-center gap-2">
+                <span>{icon}</span>
+                <span className="text-xs text-gray-500 font-medium">{text}</span>
               </div>
             ))}
           </div>
 
-          {/* Accordions */}
-          <details className="mt-7 pt-7 border-t border-gray-100 group">
-            <summary className="flex items-center justify-between cursor-pointer list-none">
-              <span className="font-body text-[11px] tracking-[0.15em] uppercase text-gray-700">
-                How it&apos;s made
-              </span>
-              <svg className="w-3.5 h-3.5 text-gray-400 group-open:rotate-180 transition-transform duration-200"
-                   fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </summary>
-            <p className="font-body text-sm text-gray-500 leading-relaxed mt-4">
-              Your order is sent directly to our print partner after checkout. Each garment
-              is DTG-printed on certified organic cotton using water-based inks. Production
-              typically takes 2–5 business days before shipping.
-            </p>
-          </details>
-
-          <details className="pt-5 pb-1 border-t border-gray-100 mt-4 group">
-            <summary className="flex items-center justify-between cursor-pointer list-none">
-              <span className="font-body text-[11px] tracking-[0.15em] uppercase text-gray-700">
-                Shipping & delivery
-              </span>
-              <svg className="w-3.5 h-3.5 text-gray-400 group-open:rotate-180 transition-transform duration-200"
-                   fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </summary>
-            <p className="font-body text-sm text-gray-500 leading-relaxed mt-4">
-              Standard shipping: 3–7 business days after production. Expedited shipping
-              available at checkout. Tracking provided via email when your order ships.
-            </p>
-          </details>
+          {/* Accordion details */}
+          <div className="mt-6 border-t border-gray-100">
+            {[
+              { label: 'How it\'s made', body: 'Your order is sent directly to our print partner after checkout. Each garment is DTG-printed on certified organic cotton using water-based inks. Production takes 2–5 business days before shipping.' },
+              { label: 'Shipping & Delivery', body: 'Orders are processed within 2–4 business days. Standard delivery is 5–10 business days after production. You will receive a tracking number by email when your order ships.' },
+              { label: 'Returns & Refunds', body: 'We accept returns within 30 days of delivery on items with manufacturing defects. Items must be unworn and unwashed. Size/color exchanges and buyer\'s remorse are not eligible for return due to the on-demand nature of production.' },
+            ].map(({ label, body }) => (
+              <details key={label} className="border-b border-gray-100 py-3 group">
+                <summary className="flex justify-between items-center cursor-pointer text-sm font-bold text-gray-800 list-none">
+                  {label}
+                  <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <p className="text-sm text-gray-500 leading-relaxed mt-3">{body}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Related products */}
-      {related.length > 0 && (
-        <section className="border-t border-gray-100 py-16 lg:py-20">
-          <p className="font-body text-[9px] tracking-[0.35em] uppercase text-gray-400 mb-2">
-            You might also like
-          </p>
-          <h2 className="font-display font-semibold text-gray-900 mb-10" style={{ fontSize: '2rem' }}>
-            More {product.category}
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-10">
-            {related.map(p => (
-              <Link key={p.id} href={`/products/${p.id}`} className="p-card group block">
-                <div className="relative overflow-hidden aspect-[3/4] bg-[#f0ede6]">
-                  <div className="img-inner absolute inset-0">
-                    <Image
-                      src={p.image}
-                      alt={p.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="pt-3">
-                  <p className="font-body text-[9px] tracking-[0.2em] uppercase text-gray-400 mb-0.5">
-                    {p.category}
-                  </p>
-                  <h3 className="font-display text-xl font-semibold text-gray-900 group-hover:text-gray-500 transition-colors leading-tight">
-                    {p.name}
-                  </h3>
-                  <p className="font-body text-sm font-medium text-gray-900 mt-1">
-                    ${p.price.toFixed(2)}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* Back */}
-      <div className="border-t border-gray-100 py-8">
-        <Link
-          href="/"
-          className="font-body text-[11px] tracking-[0.2em] uppercase text-gray-400 hover:text-gray-900 transition-colors flex items-center gap-2"
-        >
-          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Shop
+      <div className="border-t border-gray-100 pt-6">
+        <Link href="/" className="text-sm text-gray-400 hover:text-[var(--accent)] transition-colors flex items-center gap-2 font-medium">
+          ← Back to Shop
         </Link>
       </div>
     </div>

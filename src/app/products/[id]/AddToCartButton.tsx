@@ -1,31 +1,34 @@
 'use client';
 import { useState } from 'react';
 
-export default function AddToCartButton({ productName }: { productName: string }) {
-  const [state, setState] = useState<'idle' | 'added'>('idle');
+export default function AddToCartButton({ productName, price }: { productName: string; price: number }) {
+  const [qty, setQty]     = useState(1);
+  const [added, setAdded] = useState(false);
 
-  const handle = () => {
-    setState('added');
-    setTimeout(() => setState('idle'), 2400);
+  const handleAdd = () => {
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2500);
   };
 
   return (
-    <button
-      onClick={handle}
-      className="w-full btn-primary justify-center py-[17px] text-[12px]"
-      style={state === 'added' ? { background: '#3a6b4a' } : {}}
-      aria-label={`Add ${productName} to cart`}
-    >
-      {state === 'added' ? (
-        <>
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          Added to Cart
-        </>
-      ) : (
-        'Add to Cart'
-      )}
-    </button>
+    <div className="flex flex-col gap-3">
+      {/* Qty selector — exactly matches screenshot */}
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Quantity</p>
+        <div className="flex items-center w-fit border border-gray-300">
+          <button className="qty-btn" onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Decrease quantity">−</button>
+          <input type="number" className="qty-input" value={qty} min={1} readOnly aria-label="Quantity" />
+          <button className="qty-btn" onClick={() => setQty(q => q + 1)} aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      {/* Add to cart */}
+      <button onClick={handleAdd}
+        className="btn-accent w-full justify-center py-4 text-base"
+        style={added ? { background: '#2d6a4f', borderColor: '#2d6a4f' } : {}}
+        aria-label={`Add ${productName} to cart`}>
+        {added ? '✓ Added to Cart!' : `Add to Cart — $${(price * qty).toFixed(2)}`}
+      </button>
+    </div>
   );
 }
