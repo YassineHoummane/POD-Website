@@ -88,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-gray-600 text-xs">© {BRAND.year} {BRAND.name}. All rights reserved.</p>
               <div className="flex items-center gap-3">
-                {['VISA','MC','AMEX','PAYPAL'].map(p => (
+                {[].map(p => (
                   <span key={p} className="bg-gray-800 text-gray-400 text-[9px] font-bold px-2 py-1 rounded">{p}</span>
                 ))}
               </div>
