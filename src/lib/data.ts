@@ -208,7 +208,7 @@ export const products: Product[] = [
     price: 40.00,
     description: 'Classic crewneck in midweight 320gsm fleece. Relaxed, lived-in silhouette that only gets better over time.',
     category: 'Sweatshirts', categorySlug: 'sweatshirts',
-    image: 'https://i.postimg.cc/xTzLvmSG/44306570-27276-hi.jpg',
+    image: <a href='https://postimg.cc/yk7JBkxW' target='_blank'><img src='https://i.postimg.cc/yk7JBkxW/44306570-27276-hi.jpg' border='0' alt='44306570-27276-hi'></a>,
     imageAlt: 'Cozy fleece crewneck sweatshirt',
     imagePlaceholder: 'Cozy Fleece Sweatshirt',
     colors: [
