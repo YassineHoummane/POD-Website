@@ -98,7 +98,7 @@ export const products: Product[] = [
     price: 48.00,
     description: 'Midweight 320gsm cotton-poly blend, adjustable drawcord hood, ribbed cuffs and hem. Everyday versatility without compromise.',
     category: 'Zip Hoodies', categorySlug: 'zip-hoodies',
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/8kbHFMNm/3c8f4c21cdcea839c60f943a33f6cc1f2fa7be23.jpg',
     imageAlt: 'Classic zip hoodie in light grey',
     imagePlaceholder: 'Classic Zip Hoodie',
     colors: [
@@ -116,7 +116,7 @@ export const products: Product[] = [
     price: 22.00,
     description: 'Athletic-cut 200gsm jersey, wide shoulder straps, deep armhole. Runs slightly slim — size up for a relaxed fit. DTG-printed graphic that won\'t crack or fade.',
     category: 'Tank Tops', categorySlug: 'tank-tops',
-    image: 'https://images.unsplash.com/photo-1523381294911-8d3cead13475?w=800&q=80&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/k5xS0P5T/e13d13bf25c1c440f715effda7c404c709de15f1.jpg',
     imageAlt: 'Premium muscle tank top',
     imagePlaceholder: 'Premium Muscle Tank',
     badge: 'New',
@@ -134,7 +134,7 @@ export const products: Product[] = [
     price: 19.00,
     description: '1×1 rib-knit cotton, fitted silhouette. Clean, minimal, endlessly wearable. Pairs with everything — the tank top you\'ve been looking for.',
     category: 'Tank Tops', categorySlug: 'tank-tops',
-    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/Qd7K7ZcZ/af47570fc4558ec013ea061392f37a7bc617ba94.jpg',
     imageAlt: 'Essential ribbed tank top',
     imagePlaceholder: 'Essential Ribbed Tank',
     colors: [
@@ -208,7 +208,7 @@ export const products: Product[] = [
     price: 40.00,
     description: 'Classic crewneck in midweight 320gsm fleece. Relaxed, lived-in silhouette that only gets better over time.',
     category: 'Sweatshirts', categorySlug: 'sweatshirts',
-    image: 'https://images.unsplash.com/photo-1620799139834-6b8f844fbe61?w=800&q=80&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/xTzLvmSG/44306570-27276-hi.jpg',
     imageAlt: 'Cozy fleece crewneck sweatshirt',
     imagePlaceholder: 'Cozy Fleece Sweatshirt',
     colors: [
