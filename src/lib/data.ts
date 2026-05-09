@@ -228,7 +228,7 @@ export const products: Product[] = [
 
 export const categories = [
   { name: 'T-Shirts',    slug: 't-shirts',    image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&q=80&auto=format&fit=crop' },
-  { name: 'Zip Hoodies', slug: 'zip-hoodies', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80&auto=format&fit=crop' },
+  { name: 'Zip Hoodies', slug: 'zip-hoodies', image: 'https://i.postimg.cc/mZd52wK9/Grey-Shadow.jpg' },
   { name: 'Tank Tops',   slug: 'tank-tops',   image: 'https://i.postimg.cc/k5xS0P5T/e13d13bf25c1c440f715effda7c404c709de15f1.jpg' },
   { name: 'Hats',        slug: 'hats',        image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&q=80&auto=format&fit=crop' },
   { name: 'Hoodies',     slug: 'hoodies',     image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80&auto=format&fit=crop' },
